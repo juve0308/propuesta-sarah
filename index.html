@@ -5,165 +5,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¿Quieres ser mi novia?</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: linear-gradient(135deg, #ff9ac8, #ffb6e0, #ffd0ef);
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
+      background: linear-gradient(135deg, #ff6b6b, #ffa5a5);
+      font-family: 'Arial', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
       position: relative;
     }
 
-    #contenido {
+    .container {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 60px;
-      z-index: 10;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1.5s ease;
       position: relative;
+      z-index: 10;
     }
 
     h1 {
-      color: #fff;
-      font-size: clamp(46px, 8vw, 90px);
-      text-shadow: 0 0 14px rgba(255, 255, 255, .9);
-      margin: 0;
-      text-align: center;
-      transition: opacity .6s ease, transform .6s ease;
+      color: #ff4d6d;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      animation: pulse 2s infinite;
     }
 
-    .botones {
+    p {
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .photo {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 15px;
+      margin: 1rem auto;
+      display: block;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 3px solid #ff4d6d;
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: heartbeat 1.5s infinite;
+      margin: 0.5rem 0;
+    }
+
+    .buttons {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 80px;
-      position: relative;
-      z-index: 10;
+      gap: 1rem;
       flex-wrap: wrap;
+      margin-top: 1rem;
     }
 
-    .btn {
-      padding: 18px 48px;
+    .btn-yes {
+      background: #ff4d6d;
+      color: white;
       border: none;
-      border-radius: 50px;
-      min-width: 170px;
-      background: #ff4fa3;
-      color: #fff;
-      font-size: clamp(20px, 3vw, 26px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
-      cursor: pointer;
-      transition: transform .2s ease, background .2s ease;
-    }
-    .btn:hover {
-      transform: translateY(-3px);
-      background: #ff268d;
-    }
-
-    #mensaje {
-      display: none;
-      color: #fff;
-      font-size: clamp(54px, 9vw, 115px);
-      font-weight: 600;
-      text-shadow: 0 0 28px rgba(255, 255, 255, .9);
-      position: fixed;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      opacity: 0;
-      text-align: center;
-      line-height: 1.3;
-      letter-spacing: 1px;
-      animation: mensajeZoom 1s ease forwards;
-      transition: transform 1s ease;
-      z-index: 15;
-    }
-    @keyframes mensajeZoom {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    .latido {
-      animation: latir 2s ease-in-out infinite;
-    }
-    @keyframes latir {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.05); }
-    }
-
-    #regalo {
-      display: none;
-      position: fixed;
-      top: 73%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: #ff4fa3;
-      color: #fff;
-      border: none;
+      padding: 12px 35px;
+      font-size: 1.2rem;
       border-radius: 30px;
-      padding: 22px 55px;
-      font-size: clamp(22px, 3.5vw, 28px);
       cursor: pointer;
-      opacity: 0;
-      text-align: center;
-      animation: aparecer 1s ease forwards;
-      transition: all .3s ease;
-      overflow: hidden;
-      width: 80%;
-      z-index: 20;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255,77,109,0.4);
     }
 
-    @keyframes aparecer {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .btn-yes:hover {
+      transform: scale(1.1);
+      background: #ff335c;
     }
 
-    .brillo::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 55px;
-      background: linear-gradient(120deg, #fff, #ff69b4, #ffe6f0, #ff69b4, #fff);
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(6px);
-      animation: animarBorde 3s linear infinite;
+    .btn-music {
+      background: #a855f7;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(168,85,247,0.4);
     }
 
-    @keyframes animarBorde {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .btn-music:hover {
+      transform: scale(1.1);
+      background: #9333ea;
     }
 
-    #regalo:hover {
-      background: #ff268d;
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .corazon {
-      position: fixed;
-      color: #fff;
-      animation: flotar 5s ease-in infinite;
-      pointer-events: none;
-      z-index: 5;
-    }
-    @keyframes flotar {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-80vh) scale(1.8); opacity: 0; }
-    }
-
-    .sube {
-      transform: translate(-50%, calc(-56%)) scale(1);
-    }
-
-    /* 🌌 Fondo estrellado (simplificado) */
-    #galaxia {
+    .response {
       display: none;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #fff0f3;
+      border-radius: 15px;
+      border: 2px solid #ff4d6d;
+      color: #ff4d6d;
+      font-size: 1.3rem;
+      font-weight: bold;
+      animation: fadeIn 1s ease;
+    }
+
+    /* Confeti */
+    .confetti {
       position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #0a0e27, #1a1a3e, #16
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      top: -20px;
+      animation: fall linear infinite;
+      z-index: 999;
+    }
+
+    @keyframes fall {
+      0% { top: -20px; transform: rotate(0deg) translateX(0); opacity: 1; }
+      100% { top: 110vh; transform: rotate(720deg) translateX(100px); opacity: 0; }
+    }
+
+    /* Fuegos artificiales */
+    .firework {
+      position: fixed;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      z-index: 998;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(20); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="heart">❤️</div>
+    <h1>¿Quieres ser mi novia, [Nombre]?</h1>
+    <p>
+      Desde que apareciste en mi vida, todo cobró más sentido.<br>
+      Tu sonrisa ilumina mis días, tu voz calma mis noches,<br>
+      y cada momento contigo se siente como un regalo que no me canso de abrir.<br><br>
+      No quiero solo compartir momentos... quiero construir una historia contigo.<br>
+      Quiero ser tu compañero, tu cómplice, tu persona.<br>
+      ¿Me dejarías ser el hombre que te haga feliz, día a día?
+    </p>
+
+    <!-- Reemplaza con tu foto -->
+    <img src="https://via.placeholder.com/300x200?text=Foto+de+ustedes" alt="Foto especial" class="photo">
+
+    <div class="buttons">
+      <button class="btn-yes" onclick="celebrate()">💖 Sí, quiero</button>
+      <button class="btn-music" onclick="toggleMusic()">🎵 Reproducir música</button>
+    </div>
+
+    <div class="response" id="response">
+      🎉 ¡Gracias por decir SÍ, [Nombre]! ❤️<br>
+      ¡Eres la persona más especial de mi vida!
+    </div>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let musicPlaying = false;
+    const music = document.getElementById('music');
+    const musicBtn = document.querySelector('.btn-music');
+
+    function toggleMusic() {
+      if (!musicPlaying) {
+        music.play();
+        musicBtn.textContent = '⏸ Pausar música';
+        musicPlaying = true;
+      } else {
+        music.pause();
+        musicBtn.textContent = '🎵 Reproducir música';
+        musicPlaying = false;
+      }
+    }
+
+    function celebrate() {
+      // Mostrar mensaje
+      const response = document.getElementById('response');
+      response.style.display = 'block';
+
+      // Lanzar confeti
+      launchConfetti();
+
+      // Lanzar fuegos artificiales
+      launchFireworks();
+
+      // Reproducir música automáticamente
+      if (!musicPlaying) {
+        music.play();
+        musicBtn.textContent = '⏸ Pausar música';
+        musicPlaying = true;
+      }
+    }
+
+    function launchConfetti() {
+      const colors = ['#ff4d6d', '#ffd700', '#a855f7', '#00c9ff', '#ff9a3c', '#00e676'];
+      for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.classList.add('confetti');
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.width = (Math.random() * 10 + 6) + 'px';
+          confetti.style.height = (Math.random() * 10 + 6) + 'px';
+          confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+          confetti.style.animationDelay = (Math.random() * 2) + 's';
+          document.body.appendChild(confetti);
+
+          setTimeout(() => confetti.remove(), 6000);
+        }, i * 30);
+      }
+    }
+
+    function launchFireworks() {
+      const colors = ['#ff4d6d', '#ffd700', '#a855f7', '#00c9ff', '#ff9a3c', '#00e676'];
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          const firework = document.createElement('div');
+          firework.classList.add('firework');
+          firework.style.left = Math.random() * 100 + 'vw';
+          firework.style.top = Math.random() * 100 + 'vh';
+          firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+          document.body.appendChild(firework);
+
+          setTimeout(() => firework.remove(), 1000);
+        }, i * 200);
+      }
+    }
+  </script>
+
+</body>
+</html>
