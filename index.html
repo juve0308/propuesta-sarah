@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Quieres ser mi novia?</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #ff6b6b, #ffa5a5);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1.5s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    p.main-text {
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .photo {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 15px;
+      margin: 1rem auto;
+      display: block;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 3px solid #ff4d6d;
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: heartbeat 1.5s infinite;
+      margin: 0.5rem 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn-yes {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255,77,109,0.4);
+    }
+
+    .btn-yes:hover { transform: scale(1.1); background: #ff335c; }
+
+    .btn-music {
+      background: #a855f7;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+    }
+
+    .btn-music:hover { transform: scale(1.1); background: #9333ea; }
+
+    .btn-letter {
+      background: #f59e0b;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(245,158,11,0.4);
+    }
+
+    .btn-letter:hover { transform: scale(1.1); background: #d97706; }
+
+    .response {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #fff0f3;
+      border-radius: 15px;
+      border: 2px solid #ff4d6d;
+      color: #ff4d6d;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    /* ===== OVERLAY CARTA ===== */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay.active { display: flex; }
+
+    /* Sobre */
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      width: 320px;
+      height: 220px;
+      background: #fff0f3;
+      border-radius: 5px 5px 10px 10px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+
+    /* Parte inferior del sobre */
+    .envelope::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-bottom: 110px solid #ffb3c1;
+    }
+
+    /* Parte lateral izquierda */
+    .envelope::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid #ffc8d3;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+    }
+
+    .envelope-right {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-right: 160px solid #ffc8d3;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+      z-index: 3;
+    }
+
+    /* Tapa del sobre */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 110px solid #ff8fa3;
+      transform-origin: top center;
+      transition: transform 0.8s ease;
+      z-index: 5;
+    }
+
+    .envelope-flap.open {
+      transform: rotateX(180deg);
+    }
+
+    /* Carta dentro del sobre */
+    .letter {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      background: white;
+      border-radius: 5px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1;
+      transition: transform 0.8s ease 0.5s, opacity 0.8s ease 0.5s;
+      opacity: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .letter.open {
+      transform: translateX(-50%) translateY(-280px);
+      opacity: 1;
+    }
+
+    .letter h3 {
+      color: #ff4d6d;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+
+    .letter p {
+      color: #444;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+
+    .letter .signature {
+      color: #ff4d6d;
+      font-style: italic;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    .envelope-hint {
+      color: white;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    /* Confeti */
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      top: -20px;
+      animation: fall linear infinite;
+      z-index: 999;
+    }
+
+    @keyframes fall {
+      0% { top: -20px; transform: rotate(0deg) translateX(0); opacity: 1; }
+      100% { top: 110vh; transform: rotate(720deg) translateX(100px); opacity: 0; }
+    }
+
+    /* Fuegos artificiales */
+    .firework {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      z-index: 998;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(25); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <div class="heart">❤️</div>
+    <h1>¿Sarah Valentina, quieres ser mi novia?</h1>
+    <p class="main-text">
+      Desde que apareciste en mi vida, todo cobró más sentido.<br>
+      Tú compañia ilumina mis días, tu voz calma mis noches,<br>
+      y cada momento contigo se siente como un regalo que no me canso de abrir.<br><br>
+      No quiero solo compartir momentos... quiero construir una historia contigo.<br>
+      Quiero ser tu compañero, tu cómplice, el hombre de tu vida.<br>
+      ¿Me dejarías ser el hombre que te haga feliz, día a día?
+    </p>
+
+    <!-- Reemplaza con tu foto -->
+    <img src="https://drive.google.com/file/d/1FLTk8dzBGceZbIrvw7k3PmzKDtlrgVB3/view?usp=drivesdk" alt="Foto especial" class="photo">
+
+    <div class="buttons">
+      <button class="btn-yes" onclick="celebrate()">💖 Sí, quiero</button>
+      <button class="btn-music" onclick="toggleMusic()">🎵 Reproducir música</button>
+      <button class="btn-letter" onclick="openEnvelope()">💌 Leer carta secreta</button>
+    </div>
+
+    <div class="response" id="response">
+      🎉 ¡Gracias por decir sí mí nena preciosa! ❤️<br>
+      ¡Eres la persona más especial de mi vida!
+    </div>
+  </div>
+
+  <!-- Overlay carta -->
+  <div class="overlay" id="overlay">
+    <div>
+      <div class="envelope-wrapper" onclick="openLetter()">
+        <button class="close-btn" onclick="closeEnvelope(event)">✕</button>
+
+        <!-- Carta (dentro del sobre) -->
+        <div class="letter" id="letter">
+          <h3>💌 Para mí Saritah preciosa</h3>
+          <p>No sé si alguna vez te lo he dicho con las palabras exactas, pero desde que te conocí, mi vida cambió para siempre.</p>
+          <p>No fue solo tu sonrisa, ni tu voz, ni siquiera ese gesto que haces cuando te ríes… fue <em>todo</em>. Fué ese lindo corazón que tienes, la linda perdona que eres, cómo me escuchas cuando no tengo palabras, cómo me haces sentir de amado he importante en tú vida</p>
+          <p>Recuerdo la primera vez que empezamos hablar <em>Todo empezó con esas noches de juego que poco a poco nos unieron más y más, esas desveladas conversando cualquier tipo de tema, temas desde lo más random a lo más reflexivos, conocí tú linda personalidad, una mujer con un corazón muy lindo, una persona con la que podia ser yo mismo y con la que me he sentido muy cómodo hasta el dia de hoy</em>. Y desde entonces, cada día contigo es un regalo.</p>
+          <p>Quiero seguir descubriendo cosas contigo: tus sueños, tus miedos, tus canciones favoritas, tus lugares secretos, tus manías, tus historias…</p>
+          <p>Quiero ser el que te abrace cuando estés triste, el que te haga reír cuando todo se ponga gris, el que te acompañe en cada paso, sin prisa, sin miedo, con todo mi corazón.</p>
+          <p>Así que… ¿me permites ser tu novio? No quiero solo un "sí"… quiero una historia. Y si tú estás de acuerdo, prometo escribir cada capítulo contigo, con risas, con cafés, con viajes, con errores, con besos, con todo.</p>
+          <p class="signature">Te quiero mucho mucho mí princesa Sarah.<br>Con todo lo que soy.<br>— Jenier G.💖</p>
+        </div>
+
+        <!-- Sobre -->
+        <div class="envelope">
+          <div class="envelope-flap" id="flap"></div>
+          <div class="envelope-right"></div>
+        </div>
+      </div>
+      <p class="envelope-hint">💌 Haz clic en el sobre para abrirlo</p>
+    </div>
+  </div>
+
+  <!-- Música -->
+  <audio id="music" loop>
+    <source src="https://drive.google.com/file/d/1Wuv7MLuOjVbAqkhs2OwB3aH7UxmvoXU2/view?usp=drivesdk" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let musicPlaying = false;
+    let letterOpened = false;
+    const music = document.getElementById('music');
+    const musicBtn = document.querySelector('.btn-music');
+
+    // ===== MÚSICA =====
+    function toggleMusic() {
+      if (!musicPlaying) {
+        music.play();
+        musicBtn.textContent = '⏸ Pausar música';
+        musicPlaying = true;
+      } else {
+        music.pause();
+        musicBtn.textContent = '🎵 Reproducir música';
+        musicPlaying = false;
+      }
+    }
