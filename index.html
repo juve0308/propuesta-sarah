@@ -354,6 +354,8 @@ function iniciarGalaxia(){
   });
   function formatTime(sec){if(!isFinite(sec))return'0:00';const m=Math.floor(sec/60);const s=Math.floor(sec%60).toString().padStart(2,'0');return m+':'+s;}
   audio.addEventListener('timeupdate',()=>{
+   audio.currentTime = 37; // ← cambia 60 por los segundos que quieras
+});
   const percent=(audio.currentTime/audio.duration)*100;
   progressBar.style.width=(isFinite(percent)?percent:0)+'%';
   timeDisplay.textContent=formatTime(audio.currentTime)+' / '+formatTime(audio.duration);
