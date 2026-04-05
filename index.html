@@ -336,9 +336,14 @@ function iniciarGalaxia(){
   let isPlaying=false;
 
   // ✅ Empieza en el segundo 37
-  audio.addEventListener('loadedmetadata',()=>{
+  // ✅ Funciona siempre:
+if (audio.readyState >= 1) {
+  audio.currentTime = 37;
+} else {
+  audio.addEventListener('loadedmetadata', () => {
     audio.currentTime = 37;
   });
+}
 
   playBtn.addEventListener('click',async()=>{
     if(isPlaying){audio.pause();playBtn.textContent='▶️';}
